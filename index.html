@@ -26,6 +26,8 @@
       --slate-500: #64748b;
       --slate-400: #94a3b8;
       --slate-50: #f8fafc;
+
+      --contrast: #ffffff;
     }
 
     html.light-mode {
@@ -37,15 +39,56 @@
       --slate-500: #64748b;
       --slate-400: #475569;
       --slate-50: #0f172a;
+
+      --contrast: #0f172a;
     }
 
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background-color: var(--slate-950);
+      color: var(--slate-50);
       margin: 0;
       padding: 0;
     }
   </style>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            theme: {
+              400: 'var(--theme-400)',
+              500: 'var(--theme-500)',
+              600: 'var(--theme-600)',
+              700: 'var(--theme-700)',
+              800: 'var(--theme-800)',
+            },
+            slate: {
+              50: 'var(--slate-50)',
+              400: 'var(--slate-400)',
+              500: 'var(--slate-500)',
+              600: 'var(--slate-600)',
+              700: 'var(--slate-700)',
+              800: 'var(--slate-800)',
+              900: 'var(--slate-900)',
+              950: 'var(--slate-950)',
+            },
+            contrast: 'var(--contrast)',
+          },
+          animation: {
+            'fadeIn': 'fadeIn 0.5s ease-out forwards',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0', transform: 'translateY(10px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
 </head>
 
 <body>

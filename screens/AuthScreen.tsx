@@ -1,9 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   sendEmailVerification,
   updateProfile,
   setPersistence,
@@ -64,7 +64,7 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onNotify }) => {
 
     try {
       await setPersistence(
-        auth, 
+        auth,
         stayLoggedIn ? browserLocalPersistence : browserSessionPersistence
       );
 
@@ -87,7 +87,7 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onNotify }) => {
         if (password !== formData.confirmPassword) {
           throw new Error("Mismatch: Passwords do not match.");
         }
-        
+
         if (usernameTrimmed.length < 1) {
           throw new Error("Identification Required: Please enter a username.");
         }
@@ -96,7 +96,7 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onNotify }) => {
         const user = userCredential.user;
 
         await updateProfile(user, { displayName: usernameTrimmed });
-        
+
         await set(ref(db, `users/${user.uid}`), {
           uid: user.uid,
           username: usernameTrimmed,
@@ -112,7 +112,7 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onNotify }) => {
     } catch (err: any) {
       console.error("Auth Exception:", err.code, err.message);
       let errorMessage = "Deployment Error: Connection failed.";
-      
+
       if (err.code === 'auth/invalid-credential') {
         errorMessage = "Identity Denied: Incorrect email or password.";
       } else if (err.code === 'auth/email-already-in-use') {
@@ -126,7 +126,7 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onNotify }) => {
       } else {
         errorMessage = err.message || errorMessage;
       }
-      
+
       onNotify(errorMessage, 'error');
     } finally {
       setLoading(false);
@@ -155,9 +155,9 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onNotify }) => {
   return (
     <div className="flex flex-col items-center justify-center min-h-[80vh] px-4 animate-fadeIn relative">
       <div className="w-full max-w-md bg-slate-900 rounded-[2.5rem] border border-slate-800 p-8 shadow-2xl relative">
-        <button 
+        <button
           onClick={() => navigate('/')}
-          className="absolute top-6 left-6 w-10 h-10 rounded-full bg-slate-950 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-indigo-400 transition-all active:scale-90"
+          className="absolute top-6 left-6 w-10 h-10 rounded-full bg-slate-950 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-theme-400 transition-all active:scale-90"
           type="button"
         >
           <i className="fa-solid fa-arrow-left"></i>
@@ -165,10 +165,10 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onNotify }) => {
 
         <div className="flex flex-col items-center mb-8 mt-4">
           <img src={LOGO_URL} alt={APP_NAME} className="w-16 h-16 mb-4" />
-          <h2 className="text-2xl font-black text-slate-50 uppercase tracking-tighter">
+          <h2 className="text-2xl font-black text-contrast uppercase tracking-tighter">
             {isLogin ? 'Mission Login' : 'Deploy Identity'}
           </h2>
-          <p className="text-indigo-500 text-[10px] font-black uppercase tracking-[0.2em]">
+          <p className="text-theme-500 text-[10px] font-black uppercase tracking-[0.2em]">
             {isLogin ? 'Authorization Required' : 'Join the Universe'}
           </p>
         </div>
@@ -181,9 +181,9 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onNotify }) => {
                 type="text"
                 required
                 placeholder="GameMaster"
-                className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-4 focus:ring-2 focus:ring-indigo-500/50 outline-none transition-all text-sm text-slate-50 placeholder:text-slate-700"
+                className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-4 focus:ring-2 focus:ring-theme-500/50 outline-none transition-all text-sm text-contrast placeholder:text-slate-700"
                 value={formData.username}
-                onChange={(e) => setFormData({...formData, username: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
               />
             </div>
           )}
@@ -194,9 +194,9 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onNotify }) => {
               type="email"
               required
               placeholder="name@provider.com"
-              className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-4 focus:ring-2 focus:ring-indigo-500/50 outline-none transition-all text-sm text-slate-50 placeholder:text-slate-700"
+              className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-4 focus:ring-2 focus:ring-theme-500/50 outline-none transition-all text-sm text-contrast placeholder:text-slate-700"
               value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             />
           </div>
 
@@ -206,9 +206,9 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onNotify }) => {
               type="password"
               required
               placeholder="••••••••"
-              className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-4 focus:ring-2 focus:ring-indigo-500/50 outline-none transition-all text-sm text-slate-50 placeholder:text-slate-700"
+              className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-4 focus:ring-2 focus:ring-theme-500/50 outline-none transition-all text-sm text-contrast placeholder:text-slate-700"
               value={formData.password}
-              onChange={(e) => setFormData({...formData, password: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             />
             {!isLogin && (
               <div className="grid grid-cols-2 gap-2 mt-2 px-2">
@@ -239,9 +239,9 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onNotify }) => {
                 type="password"
                 required
                 placeholder="••••••••"
-                className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-4 focus:ring-2 focus:ring-indigo-500/50 outline-none transition-all text-sm text-slate-50 placeholder:text-slate-700"
+                className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-4 focus:ring-2 focus:ring-theme-500/50 outline-none transition-all text-sm text-contrast placeholder:text-slate-700"
                 value={formData.confirmPassword}
-                onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
               />
             </div>
           )}
@@ -249,23 +249,23 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onNotify }) => {
           <div className="flex items-center justify-between px-2 py-1">
             <label className="flex items-center cursor-pointer group">
               <div className="relative">
-                <input 
-                  type="checkbox" 
-                  className="sr-only" 
+                <input
+                  type="checkbox"
+                  className="sr-only"
                   checked={stayLoggedIn}
                   onChange={(e) => setStayLoggedIn(e.target.checked)}
                 />
-                <div className={`w-10 h-5 rounded-full shadow-inner transition-colors ${stayLoggedIn ? 'bg-indigo-600' : 'bg-slate-700'}`}></div>
+                <div className={`w-10 h-5 rounded-full shadow-inner transition-colors ${stayLoggedIn ? 'bg-theme-600' : 'bg-slate-700'}`}></div>
                 <div className={`absolute top-1 left-1 w-3 h-3 bg-white rounded-full shadow transition-transform ${stayLoggedIn ? 'translate-x-5' : 'translate-x-0'}`}></div>
               </div>
               <span className="ml-3 text-[10px] font-black text-slate-500 group-hover:text-slate-300 transition-colors uppercase tracking-widest">Maintain Link</span>
             </label>
-            
+
             {isLogin && (
-              <button 
+              <button
                 type="button"
                 onClick={handleForgotPassword}
-                className="text-[10px] font-black text-indigo-400 hover:text-indigo-300 transition-colors uppercase tracking-widest"
+                className="text-[10px] font-black text-theme-400 hover:text-theme-300 transition-colors uppercase tracking-widest"
               >
                 Lost Key?
               </button>
@@ -275,7 +275,7 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onNotify }) => {
           <button
             type="submit"
             disabled={loading || (!isLogin && !isPasswordSecure)}
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-2xl shadow-lg shadow-indigo-600/30 transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed mt-2 border-b-4 border-indigo-800"
+            className="w-full bg-theme-600 hover:bg-theme-700 text-white font-black py-4 rounded-2xl shadow-lg shadow-theme-600/30 transition-all active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed mt-2 border-b-4 border-theme-800"
           >
             {loading ? (
               <span className="flex items-center justify-center">
@@ -292,7 +292,7 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onNotify }) => {
           </p>
           <button
             onClick={toggleMode}
-            className="text-indigo-400 font-black text-sm hover:text-indigo-300 transition-colors uppercase tracking-widest"
+            className="text-theme-400 font-black text-sm hover:text-theme-300 transition-colors uppercase tracking-widest"
             type="button"
           >
             {isLogin ? 'Create Profile' : 'Login Existing'}

@@ -19,14 +19,14 @@ const BottomNav: React.FC = () => {
           end={item.exact}
           className={({ isActive }) => `
             flex flex-col items-center justify-center flex-1 py-1 transition-all duration-300 relative
-            ${isActive ? 'text-indigo-400 scale-110' : 'text-slate-500 hover:text-slate-300'}
+            ${isActive ? 'text-theme-400 scale-110' : 'text-slate-500 hover:text-slate-300'}
           `}
         >
           {({ isActive }) => (
             <>
               <div className={`
                 flex items-center justify-center w-10 h-6 rounded-full transition-all duration-300 mb-1
-                ${isActive ? 'bg-indigo-500/10' : 'bg-transparent'}
+                ${isActive ? 'bg-theme-500/10' : 'bg-transparent'}
               `}>
                 <i className={`fa-solid ${item.icon} ${isActive ? 'text-lg' : 'text-base'} transition-all`}></i>
               </div>
@@ -36,10 +36,10 @@ const BottomNav: React.FC = () => {
               `}>
                 {item.label}
               </span>
-              
+
               {/* Material-style Indicator Bar */}
               {isActive && (
-                <div className="absolute -top-[1px] left-1/2 -translate-x-1/2 w-10 h-[2px] bg-indigo-500 rounded-full shadow-[0_0_10px_rgba(99,102,241,0.5)]"></div>
+                <div className="absolute -top-[1px] left-1/2 -translate-x-1/2 w-10 h-[2px] bg-theme-500 rounded-full shadow-[0_0_10px_rgba(99,102,241,0.5)]"></div>
               )}
             </>
           )}

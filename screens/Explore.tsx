@@ -24,11 +24,11 @@ const Explore: React.FC = () => {
   }, []);
 
   const filteredGames = games.filter(g => {
-    const matchesCategory = 
-      selectedCategory === 'all' || 
+    const matchesCategory =
+      selectedCategory === 'all' ||
       (selectedCategory === 'featured' ? g.isFeatured : g.category === selectedCategory);
-    const matchesSearch = g.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          g.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = g.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      g.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
@@ -47,14 +47,14 @@ const Explore: React.FC = () => {
       <section className="px-1 pt-2">
         <div className="relative group">
           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-            <i className="fa-solid fa-magnifying-glass text-slate-500 group-focus-within:text-indigo-400 transition-colors"></i>
+            <i className="fa-solid fa-magnifying-glass text-slate-500 group-focus-within:text-theme-400 transition-colors"></i>
           </div>
           <input
             type="text"
             placeholder="Search the entire universe..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-800 text-slate-50 text-sm rounded-2xl pl-11 pr-4 py-4 outline-none transition-all focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 shadow-xl"
+            className="w-full bg-slate-900 border border-slate-800 text-contrast text-sm rounded-2xl pl-11 pr-4 py-4 outline-none transition-all focus:ring-2 focus:ring-theme-500/50 focus:border-theme-500/50 shadow-xl"
           />
         </div>
       </section>
@@ -66,13 +66,13 @@ const Explore: React.FC = () => {
         <div className="flex space-x-3 overflow-x-auto pb-2 scrollbar-hide">
           <button
             onClick={() => setSelectedCategory('all')}
-            className={`flex-shrink-0 px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-wider transition-all border ${selectedCategory === 'all' ? 'bg-indigo-600 text-white border-indigo-500 shadow-lg' : 'bg-slate-900 text-slate-500 border-slate-800'}`}
+            className={`flex-shrink-0 px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-wider transition-all border ${selectedCategory === 'all' ? 'bg-theme-600 text-white border-theme-500 shadow-lg' : 'bg-slate-900 text-slate-500 border-slate-800'}`}
           >
             All Games
           </button>
           <button
             onClick={() => setSelectedCategory('featured')}
-            className={`flex-shrink-0 px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-wider flex items-center space-x-2 transition-all border ${selectedCategory === 'featured' ? 'bg-indigo-600 text-white border-indigo-500 shadow-lg' : 'bg-slate-900 text-amber-500 border-slate-800'}`}
+            className={`flex-shrink-0 px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-wider flex items-center space-x-2 transition-all border ${selectedCategory === 'featured' ? 'bg-theme-600 text-white border-theme-500 shadow-lg' : 'bg-slate-900 text-amber-500 border-slate-800'}`}
           >
             <i className="fa-solid fa-star"></i>
             <span>Featured</span>
@@ -81,7 +81,7 @@ const Explore: React.FC = () => {
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}
-              className={`flex-shrink-0 px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-wider flex items-center space-x-2 transition-all border ${selectedCategory === cat.id ? 'bg-indigo-600 text-white border-indigo-500 shadow-lg' : 'bg-slate-900 text-slate-500 border-slate-800'}`}
+              className={`flex-shrink-0 px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-wider flex items-center space-x-2 transition-all border ${selectedCategory === cat.id ? 'bg-theme-600 text-white border-theme-500 shadow-lg' : 'bg-slate-900 text-slate-500 border-slate-800'}`}
             >
               <i className={`fa-solid ${cat.icon}`}></i>
               <span>{cat.name}</span>
@@ -92,7 +92,7 @@ const Explore: React.FC = () => {
 
       <section>
         <div className="flex items-center justify-between mb-4 px-1">
-          <h3 className="text-lg font-black text-slate-50">
+          <h3 className="text-lg font-black text-contrast">
             {searchQuery ? `Search Results (${filteredGames.length})` : selectedCategory !== 'all' ? `${selectedCategory.toUpperCase()} Games` : 'Full Universe'}
           </h3>
         </div>
@@ -104,20 +104,20 @@ const Explore: React.FC = () => {
         ) : filteredGames.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {filteredGames.map((game) => (
-              <Link 
-                key={game.id} 
+              <Link
+                key={game.id}
                 to={`/play/${game.id}`}
-                className="group relative bg-slate-900 rounded-[2rem] overflow-hidden border border-slate-800 transition-all active:scale-95 hover:border-indigo-500/50 shadow-xl"
+                className="group relative bg-slate-900 rounded-[2rem] overflow-hidden border border-slate-800 transition-all active:scale-95 hover:border-theme-500/50 shadow-xl"
               >
                 <div className="aspect-[1/1] overflow-hidden relative">
-                  <img 
-                    src={game.iconUrl} 
+                  <img
+                    src={game.iconUrl}
                     alt={game.name}
                     className="w-full h-full object-cover p-4 rounded-[3rem] group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-10">
                     {game.isFeatured && (
-                      <span className="bg-indigo-600 text-white text-[7px] font-black uppercase px-2 py-1 rounded-md shadow-lg border border-indigo-400/20 flex items-center">
+                      <span className="bg-theme-600 text-white text-[7px] font-black uppercase px-2 py-1 rounded-md shadow-lg border border-theme-400/20 flex items-center">
                         <i className="fa-solid fa-star mr-1 text-[6px]"></i> Featured
                       </span>
                     )}
@@ -127,7 +127,7 @@ const Explore: React.FC = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
                 </div>
                 <div className="p-4 pt-0">
-                  <h4 className="font-black text-sm truncate text-slate-50 mb-1 group-hover:text-indigo-400 transition-colors">{game.name}</h4>
+                  <h4 className="font-black text-sm truncate text-contrast mb-1 group-hover:text-theme-400 transition-colors">{game.name}</h4>
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col">
                       <p className="text-slate-500 text-[9px] font-bold uppercase tracking-widest">{game.category}</p>
@@ -142,7 +142,7 @@ const Explore: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center text-[8px] text-indigo-400/70">
+                    <div className="flex items-center text-[8px] text-theme-400/70">
                       <i className="fa-solid fa-play mr-1"></i>
                       <span>{game.playCount || 0}</span>
                     </div>
@@ -156,7 +156,7 @@ const Explore: React.FC = () => {
             <div className="w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center mb-6">
               <i className="fa-solid fa-ghost text-2xl text-slate-600"></i>
             </div>
-            <h4 className="text-slate-50 font-bold mb-2">No missions available</h4>
+            <h4 className="text-contrast font-bold mb-2">No missions available</h4>
             <p className="text-slate-500 text-xs max-w-[200px] leading-relaxed">We couldn't find any games matching these filters. Try adjusting your search!</p>
           </div>
         )}

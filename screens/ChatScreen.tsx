@@ -1,13 +1,13 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { 
-  collection, 
-  addDoc, 
-  query, 
-  orderBy, 
-  limit, 
-  onSnapshot, 
+import {
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  limit,
+  onSnapshot,
   serverTimestamp,
   Timestamp,
   setDoc,
@@ -68,7 +68,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ onNotify }) => {
 
   useEffect(() => {
     if (!auth.currentUser || !roomId) return;
-    
+
     // Check verification
     const checkVerification = async () => {
       await auth.currentUser?.reload();
@@ -84,7 +84,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ onNotify }) => {
     });
 
     return () => {
-      deleteDoc(presenceRef).catch(() => {});
+      deleteDoc(presenceRef).catch(() => { });
     };
   }, [roomId]);
 
@@ -142,14 +142,14 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ onNotify }) => {
     if (isOffensive) {
       const blockUntil = Date.now() + 600000; // 10 Minutes
       const reason = "Violating harassment and bullying policies.";
-      
+
       try {
         // Global suspension path - App.tsx handles the UI blockade
         await set(ref(db, `userBlocks/${auth.currentUser.uid}`), {
           blockedUntil: blockUntil,
           reason: reason
         });
-        
+
         onNotify("Guardian Protocol: Offensive content detected. Account suspended for 10 minutes.", "error");
         setNewMessage('');
       } catch (err) {
@@ -186,7 +186,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ onNotify }) => {
     <div className="h-full flex flex-col items-center justify-center text-slate-500 bg-slate-950">
       <i className="fa-solid fa-triangle-exclamation text-4xl mb-4"></i>
       <p className="font-black uppercase tracking-widest text-slate-50">Server Offline or Invalid</p>
-      <button onClick={() => navigate('/')} className="mt-4 text-indigo-600 font-bold uppercase text-xs">Return Home</button>
+      <button onClick={() => navigate('/')} className="mt-4 text-theme-600 font-bold uppercase text-xs">Return Home</button>
     </div>
   );
 
@@ -195,16 +195,16 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ onNotify }) => {
       {/* Theme-Aware Header */}
       <div className="h-16 px-6 border-b border-slate-800 flex items-center justify-between shrink-0 bg-slate-950">
         <div className="flex items-center space-x-4 min-w-0">
-          <button 
+          <button
             onClick={() => navigate(-1)}
-            className="w-10 h-10 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-50 hover:text-indigo-400 transition-all active:scale-90"
+            className="w-10 h-10 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-contrast hover:text-theme-400 transition-all active:scale-90"
           >
             <i className="fa-solid fa-arrow-left"></i>
           </button>
           <div className="min-w-0">
-            <h4 className="text-lg font-black text-slate-50 tracking-tighter truncate">{roomInfo.name}</h4>
+            <h4 className="text-lg font-black text-contrast tracking-tighter truncate">{roomInfo.name}</h4>
             <div className="flex items-center space-x-2">
-              <span className="flex items-center text-[10px] font-black uppercase text-indigo-600 tracking-widest">
+              <span className="flex items-center text-[10px] font-black uppercase text-theme-600 tracking-widest">
                 <i className="fa-solid fa-circle text-[6px] mr-1.5 animate-pulse"></i>
                 Station Active
               </span>
@@ -213,52 +213,51 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ onNotify }) => {
             </div>
           </div>
         </div>
-        
+
         <div className="flex -space-x-2">
-           {activeUsers.slice(0, 3).map((u, i) => (
-             <div key={i} className="w-8 h-8 rounded-full bg-slate-900 border-2 border-slate-950 flex items-center justify-center text-[8px] font-black text-indigo-600 shadow-sm" title={u}>
-               {u.charAt(0).toUpperCase()}
-             </div>
-           ))}
-           {activeUsers.length > 3 && (
-             <div className="w-8 h-8 rounded-full bg-slate-800 border-2 border-slate-950 flex items-center justify-center text-[8px] font-black text-slate-500">
-               +{activeUsers.length - 3}
-             </div>
-           )}
+          {activeUsers.slice(0, 3).map((u, i) => (
+            <div key={i} className="w-8 h-8 rounded-full bg-slate-900 border-2 border-slate-950 flex items-center justify-center text-[8px] font-black text-theme-600 shadow-sm" title={u}>
+              {u.charAt(0).toUpperCase()}
+            </div>
+          ))}
+          {activeUsers.length > 3 && (
+            <div className="w-8 h-8 rounded-full bg-slate-800 border-2 border-slate-950 flex items-center justify-center text-[8px] font-black text-slate-500">
+              +{activeUsers.length - 3}
+            </div>
+          )}
         </div>
       </div>
 
-      <div 
+      <div
         ref={scrollRef}
         className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-hide bg-slate-950"
       >
         <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-4 text-center mb-6">
-           <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest">
-             <i className="fa-solid fa-shield-halved mr-2 text-indigo-400"></i>
-             OG Guardian Bot is active. Bullying or harassment results in automatic account suspension.
-           </p>
+          <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest">
+            <i className="fa-solid fa-shield-halved mr-2 text-theme-400"></i>
+            OG Guardian Bot is active. Bullying or harassment results in automatic account suspension.
+          </p>
         </div>
 
         {messages.map((msg, idx) => {
           const isMe = msg.uid === auth.currentUser?.uid;
           // Show username if it's the start of the chat OR the previous message was from a different user
-          const showUsername = idx === 0 || messages[idx-1].uid !== msg.uid;
-          
+          const showUsername = idx === 0 || messages[idx - 1].uid !== msg.uid;
+
           return (
             <div key={msg.id} className={`flex flex-col ${isMe ? 'items-end' : 'items-start'} max-w-full animate-page-transition`}>
               {showUsername && (
-                <span className={`text-[10px] font-black uppercase mb-1.5 tracking-widest flex items-center ${isMe ? 'mr-3 text-slate-600' : 'ml-3 text-indigo-400'}`}>
+                <span className={`text-[10px] font-black uppercase mb-1.5 tracking-widest flex items-center ${isMe ? 'mr-3 text-slate-600' : 'ml-3 text-theme-400'}`}>
                   {isMe ? 'You' : msg.username}
                 </span>
               )}
-              <div className={`max-w-[85%] px-5 py-3 rounded-[1.5rem] relative ${
-                isMe 
-                ? 'bg-indigo-600 text-white rounded-tr-none shadow-md shadow-indigo-500/10' 
-                : 'bg-slate-900 text-slate-50 rounded-tl-none border border-slate-800'
-              }`}>
+              <div className={`max-w-[85%] px-5 py-3 rounded-[1.5rem] relative ${isMe
+                  ? 'bg-theme-600 text-white rounded-tr-none shadow-md shadow-theme-500/10'
+                  : 'bg-slate-900 text-contrast rounded-tl-none border border-slate-800'
+                }`}>
                 <p className="text-[14px] font-medium leading-relaxed whitespace-pre-wrap break-words">{msg.text}</p>
-                <span className={`text-[8px] font-bold mt-1.5 block opacity-50 ${isMe ? 'text-right text-indigo-100' : 'text-left text-slate-500'}`}>
-                  {msg.timestamp instanceof Timestamp ? msg.timestamp.toDate().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '...'}
+                <span className={`text-[8px] font-bold mt-1.5 block opacity-50 ${isMe ? 'text-right text-theme-100' : 'text-left text-slate-500'}`}>
+                  {msg.timestamp instanceof Timestamp ? msg.timestamp.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '...'}
                 </span>
               </div>
             </div>
@@ -275,18 +274,18 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ onNotify }) => {
           </div>
         )}
         <form onSubmit={handleSendMessage} className="flex items-center space-x-3">
-          <input 
+          <input
             type="text"
             disabled={!isVerified || sending}
             placeholder={isVerified ? "Write your message..." : "Verified users only"}
-            className="flex-1 bg-slate-900 border border-slate-800 rounded-2xl px-6 py-4 text-sm text-slate-50 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all placeholder:text-slate-600 disabled:opacity-50"
+            className="flex-1 bg-slate-900 border border-slate-800 rounded-2xl px-6 py-4 text-sm text-contrast outline-none focus:ring-2 focus:ring-theme-500/20 transition-all placeholder:text-slate-600 disabled:opacity-50"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
           />
-          <button 
+          <button
             type="submit"
             disabled={!newMessage.trim() || sending || !isVerified}
-            className="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-lg shadow-indigo-600/20 active:scale-95 transition-all disabled:opacity-50 disabled:grayscale"
+            className="w-14 h-14 rounded-2xl bg-theme-600 text-white flex items-center justify-center shadow-lg shadow-theme-600/20 active:scale-95 transition-all disabled:opacity-50 disabled:grayscale"
           >
             <i className={`fa-solid ${sending ? 'fa-circle-notch animate-spin' : 'fa-paper-plane'} text-lg`}></i>
           </button>

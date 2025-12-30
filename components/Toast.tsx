@@ -27,19 +27,19 @@ const Toast: React.FC<ToastProps> = ({ message, type, duration = 4000, onClose }
   const icons = {
     success: 'fa-circle-check text-emerald-400',
     error: 'fa-circle-exclamation text-rose-400',
-    info: 'fa-circle-info text-indigo-400'
+    info: 'fa-circle-info text-theme-400'
   };
 
   const borders = {
     success: 'border-emerald-500/20 shadow-emerald-500/10',
     error: 'border-rose-500/20 shadow-rose-500/10',
-    info: 'border-indigo-500/20 shadow-indigo-500/10'
+    info: 'border-theme-500/20 shadow-theme-500/10'
   };
 
   const progressColors = {
     success: 'bg-emerald-500',
     error: 'bg-rose-500',
-    info: 'bg-indigo-500'
+    info: 'bg-theme-500'
   };
 
   return (
@@ -49,7 +49,7 @@ const Toast: React.FC<ToastProps> = ({ message, type, duration = 4000, onClose }
           <i className={`fa-solid ${icons[type]}`}></i>
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-bold text-slate-50 tracking-tight leading-tight">{message}</p>
+          <p className="text-sm font-bold text-contrast tracking-tight leading-tight">{message}</p>
         </div>
         <button onClick={onClose} className="shrink-0 text-slate-500 hover:text-white transition-colors p-1">
           <i className="fa-solid fa-xmark text-xs"></i>

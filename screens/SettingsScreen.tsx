@@ -67,59 +67,59 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onNotify, onShowAbout }
   const handleAppearanceChange = (mode: AppearanceMode) => {
     setAppearanceMode(mode);
     localStorage.setItem('oghub_appearance_mode', mode);
-    
+
     const isDarkSystem = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const shouldBeDark = mode === 'dark' || (mode === 'system' && isDarkSystem);
-    
+
     if (shouldBeDark) {
       document.documentElement.classList.remove('light-mode');
     } else {
       document.documentElement.classList.add('light-mode');
     }
-    
+
     onNotify(`Appearance set to ${mode}`, 'info');
   };
 
   return (
     <div className="max-w-xl mx-auto animate-fadeIn pb-24">
       <div className="flex items-center space-x-4 mb-8">
-        <button 
+        <button
           onClick={() => navigate(-1)}
-          className="w-10 h-10 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-indigo-400 transition-all active:scale-90"
+          className="w-10 h-10 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-theme-400 transition-all active:scale-90"
         >
           <i className="fa-solid fa-arrow-left"></i>
         </button>
         <div>
           <h2 className="text-3xl font-black text-contrast tracking-tighter">Hub Settings</h2>
-          <p className="text-indigo-400 font-bold text-[10px] uppercase tracking-widest">Personalize your mission control</p>
+          <p className="text-theme-400 font-bold text-[10px] uppercase tracking-widest">Personalize your mission control</p>
         </div>
       </div>
 
       {/* APPEARANCE SECTION */}
       <section className="bg-slate-900 rounded-[2.5rem] border border-slate-800 p-8 shadow-2xl mb-8">
         <div className="flex items-center space-x-3 mb-6">
-          <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+          <div className="w-8 h-8 rounded-lg bg-theme-500/10 flex items-center justify-center text-theme-400">
             <i className="fa-solid fa-moon text-sm"></i>
           </div>
           <h3 className="text-sm font-black uppercase tracking-widest text-contrast">Appearance</h3>
         </div>
 
         <div className="bg-slate-950/50 p-1.5 rounded-[1.8rem] border border-slate-800 flex items-center justify-between">
-          <button 
+          <button
             onClick={() => handleAppearanceChange('light')}
-            className={`flex-1 py-3 px-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${appearanceMode === 'light' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
+            className={`flex-1 py-3 px-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${appearanceMode === 'light' ? 'bg-theme-600 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
           >
             <i className="fa-solid fa-sun mr-2"></i> Light
           </button>
-          <button 
+          <button
             onClick={() => handleAppearanceChange('system')}
-            className={`flex-1 py-3 px-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${appearanceMode === 'system' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
+            className={`flex-1 py-3 px-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${appearanceMode === 'system' ? 'bg-theme-600 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
           >
             <i className="fa-solid fa-desktop mr-2"></i> System
           </button>
-          <button 
+          <button
             onClick={() => handleAppearanceChange('dark')}
-            className={`flex-1 py-3 px-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${appearanceMode === 'dark' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
+            className={`flex-1 py-3 px-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${appearanceMode === 'dark' ? 'bg-theme-600 text-white shadow-lg' : 'text-slate-500 hover:text-slate-300'}`}
           >
             <i className="fa-solid fa-moon mr-2"></i> Dark
           </button>
@@ -129,7 +129,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onNotify, onShowAbout }
       {/* THEME COLOR SECTION */}
       <section className="bg-slate-900 rounded-[2.5rem] border border-slate-800 p-8 shadow-2xl mb-8">
         <div className="flex items-center space-x-3 mb-6">
-          <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+          <div className="w-8 h-8 rounded-lg bg-theme-500/10 flex items-center justify-center text-theme-400">
             <i className="fa-solid fa-palette text-sm"></i>
           </div>
           <h3 className="text-sm font-black uppercase tracking-widest text-contrast">Accent Theme</h3>
@@ -142,13 +142,13 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onNotify, onShowAbout }
               onClick={() => applyTheme(theme)}
               className={`
                 group relative flex flex-col items-center p-3 rounded-2xl border transition-all active:scale-95
-                ${currentThemeId === theme.id 
-                  ? 'bg-slate-800 border-indigo-500 shadow-lg' 
+                ${currentThemeId === theme.id
+                  ? 'bg-slate-800 border-theme-500 shadow-lg'
                   : 'bg-slate-950/50 border-slate-800 hover:border-slate-700'
                 }
               `}
             >
-              <div 
+              <div
                 className="w-8 h-8 rounded-full mb-2 shadow-lg group-hover:scale-110 transition-transform"
                 style={{ backgroundColor: theme.colors[500] }}
               >
@@ -158,7 +158,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onNotify, onShowAbout }
                   </div>
                 )}
               </div>
-              <span className={`text-[8px] font-black uppercase tracking-tighter truncate w-full text-center ${currentThemeId === theme.id ? 'text-indigo-400' : 'text-slate-500'}`}>
+              <span className={`text-[8px] font-black uppercase tracking-tighter truncate w-full text-center ${currentThemeId === theme.id ? 'text-theme-400' : 'text-slate-500'}`}>
                 {theme.name}
               </span>
             </button>
@@ -169,7 +169,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onNotify, onShowAbout }
       {/* PREFERENCES SECTION */}
       <section className="bg-slate-900 rounded-[2.5rem] border border-slate-800 p-8 shadow-2xl mb-8">
         <div className="flex items-center space-x-3 mb-6">
-          <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+          <div className="w-8 h-8 rounded-lg bg-theme-500/10 flex items-center justify-center text-theme-400">
             <i className="fa-solid fa-sliders text-sm"></i>
           </div>
           <h3 className="text-sm font-black uppercase tracking-widest text-contrast">Preferences</h3>
@@ -181,17 +181,17 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onNotify, onShowAbout }
               <p className="text-xs font-black text-contrast uppercase tracking-widest">Haptic Feedback</p>
               <p className="text-[10px] text-slate-500 font-bold">Vibrate on interactions</p>
             </div>
-            <div className="w-10 h-5 bg-indigo-600 rounded-full relative">
+            <div className="w-10 h-5 bg-theme-600 rounded-full relative">
               <div className="absolute top-1 right-1 w-3 h-3 bg-white rounded-full"></div>
             </div>
           </div>
-          
+
           <div className="flex items-center justify-between p-4 bg-slate-950/50 rounded-2xl border border-slate-800">
             <div>
               <p className="text-xs font-black text-contrast uppercase tracking-widest">Animations</p>
               <p className="text-[10px] text-slate-500 font-bold">Show hub transitions</p>
             </div>
-            <div className="w-10 h-5 bg-indigo-600 rounded-full relative">
+            <div className="w-10 h-5 bg-theme-600 rounded-full relative">
               <div className="absolute top-1 right-1 w-3 h-3 bg-white rounded-full"></div>
             </div>
           </div>
@@ -201,18 +201,18 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onNotify, onShowAbout }
       {/* ABOUT US SECTION */}
       <section className="bg-slate-900 rounded-[2.5rem] border border-slate-800 p-8 shadow-2xl">
         <div className="flex items-center space-x-3 mb-6">
-          <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+          <div className="w-8 h-8 rounded-lg bg-theme-500/10 flex items-center justify-center text-theme-400">
             <i className="fa-solid fa-info-circle text-sm"></i>
           </div>
           <h3 className="text-sm font-black uppercase tracking-widest text-contrast">About Us</h3>
         </div>
 
-        <button 
+        <button
           onClick={onShowAbout}
           className="w-full bg-slate-950/50 hover:bg-slate-800/80 p-5 rounded-2xl border border-slate-800 flex items-center justify-between group transition-all"
         >
           <div className="flex items-center space-x-4">
-            <div className="w-10 h-10 bg-indigo-500/10 text-indigo-500 rounded-xl flex items-center justify-center group-hover:bg-indigo-500 group-hover:text-white transition-all">
+            <div className="w-10 h-10 bg-theme-500/10 text-theme-500 rounded-xl flex items-center justify-center group-hover:bg-theme-500 group-hover:text-white transition-all">
               <i className="fa-solid fa-rocket"></i>
             </div>
             <div className="text-left">
@@ -220,7 +220,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onNotify, onShowAbout }
               <p className="text-[10px] text-slate-500 font-bold">Creators & Platform Vision</p>
             </div>
           </div>
-          <i className="fa-solid fa-chevron-right text-slate-700 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all"></i>
+          <i className="fa-solid fa-chevron-right text-slate-700 group-hover:text-theme-400 group-hover:translate-x-1 transition-all"></i>
         </button>
       </section>
 

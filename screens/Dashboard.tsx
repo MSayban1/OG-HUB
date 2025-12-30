@@ -44,7 +44,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onNotify }) => {
       if (data) {
         const sorted = Object.values(data) as RecentlyPlayed[];
         sorted.sort((a, b) => b.timestamp - a.timestamp);
-        
+
         const gamePromises = sorted.slice(0, 4).map(async (r) => {
           const gRef = ref(db, `games/${r.gameId}`);
           const gSnap = await get(gRef);
@@ -102,7 +102,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onNotify }) => {
   const handlePasswordReset = async () => {
     if (!auth.currentUser || !auth.currentUser.email) return;
     try {
-      await sendPasswordResetEmail(auth.currentUser.auth, auth.currentUser.email);
+      await sendPasswordResetEmail(auth, auth.currentUser.email);
       onNotify("Password reset link sent to your email!", "success");
     } catch (err: any) {
       onNotify(err.message, "error");
@@ -180,7 +180,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onNotify }) => {
     <div className="space-y-6 animate-fadeIn pb-12">
       <section className="bg-slate-900 rounded-[2.5rem] border border-slate-800 p-8 shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 right-0 p-6 flex space-x-2">
-          <button 
+          <button
             onClick={handleLogout}
             className="w-10 h-10 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 flex items-center justify-center transition-all hover:bg-red-500 hover:text-white"
             title="Logout"
@@ -191,58 +191,58 @@ const Dashboard: React.FC<DashboardProps> = ({ onNotify }) => {
 
         <div className="flex flex-col items-center text-center">
           <div className="relative mb-4 group">
-             <div 
+            <div
               onClick={() => fileInputRef.current?.click()}
               className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 p-1 cursor-pointer overflow-hidden relative"
-             >
-                <div className="w-full h-full rounded-full bg-slate-950 flex items-center justify-center overflow-hidden">
-                  {profile?.profilePicture ? (
-                    <img src={profile.profilePicture} alt="Profile" className="w-full h-full object-cover" />
-                  ) : (
-                    <i className="fa-solid fa-user text-4xl text-indigo-400"></i>
-                  )}
-                </div>
-                {/* Overlay on hover */}
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                  <i className="fa-solid fa-camera text-white text-lg"></i>
-                </div>
-                {uploading && (
-                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-                    <i className="fa-solid fa-circle-notch animate-spin text-white"></i>
-                  </div>
+            >
+              <div className="w-full h-full rounded-full bg-slate-950 flex items-center justify-center overflow-hidden">
+                {profile?.profilePicture ? (
+                  <img src={profile.profilePicture} alt="Profile" className="w-full h-full object-cover" />
+                ) : (
+                  <i className="fa-solid fa-user text-4xl text-indigo-400"></i>
                 )}
-             </div>
-             <input 
-               type="file" 
-               className="hidden" 
-               ref={fileInputRef} 
-               accept="image/*" 
-               onChange={handleFileChange} 
-             />
-             {profile?.emailVerified && (
-               <div className="absolute bottom-0 right-0 bg-blue-500 w-8 h-8 rounded-full border-4 border-slate-900 flex items-center justify-center text-white z-10" title="Verified">
-                 <i className="fa-solid fa-check text-[10px]"></i>
-               </div>
-             )}
+              </div>
+              {/* Overlay on hover */}
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                <i className="fa-solid fa-camera text-white text-lg"></i>
+              </div>
+              {uploading && (
+                <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                  <i className="fa-solid fa-circle-notch animate-spin text-white"></i>
+                </div>
+              )}
+            </div>
+            <input
+              type="file"
+              className="hidden"
+              ref={fileInputRef}
+              accept="image/*"
+              onChange={handleFileChange}
+            />
+            {profile?.emailVerified && (
+              <div className="absolute bottom-0 right-0 bg-blue-500 w-8 h-8 rounded-full border-4 border-slate-900 flex items-center justify-center text-white z-10" title="Verified">
+                <i className="fa-solid fa-check text-[10px]"></i>
+              </div>
+            )}
           </div>
-          
+
           <div className="flex flex-col items-center space-y-2 mb-4">
             {isEditingUsername ? (
               <div className="flex items-center space-x-2">
-                <input 
-                  type="text" 
-                  value={newUsername} 
+                <input
+                  type="text"
+                  value={newUsername}
                   onChange={(e) => setNewUsername(e.target.value)}
                   className="bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-sm text-slate-50 focus:ring-2 focus:ring-indigo-500 outline-none w-48"
                   autoFocus
                 />
-                <button 
+                <button
                   onClick={handleUpdateUsername}
                   className="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center active:scale-95"
                 >
                   <i className="fa-solid fa-check text-xs"></i>
                 </button>
-                <button 
+                <button
                   onClick={() => setIsEditingUsername(false)}
                   className="w-9 h-9 rounded-xl bg-slate-800 text-slate-400 flex items-center justify-center active:scale-95"
                 >
@@ -252,7 +252,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onNotify }) => {
             ) : (
               <div className="flex items-center space-x-3">
                 <h2 className="text-2xl font-black text-slate-50">{profile?.username || 'Gamer'}</h2>
-                <button 
+                <button
                   onClick={() => setIsEditingUsername(true)}
                   className="text-slate-500 hover:text-indigo-400 transition-colors"
                 >
@@ -262,7 +262,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onNotify }) => {
             )}
             <p className="text-slate-500 text-sm">{profile?.email}</p>
           </div>
-          
+
           <div className="flex flex-wrap justify-center gap-2">
             <span className="bg-slate-800 text-slate-300 text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border border-slate-700">
               ID: {profile?.uid?.slice(0, 8)}
@@ -270,7 +270,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onNotify }) => {
             <span className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border ${profile?.emailVerified ? 'bg-green-500/10 text-green-500 border-green-500/20' : 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20'}`}>
               {profile?.emailVerified ? 'Verified' : 'Unverified'}
             </span>
-            <button 
+            <button
               onClick={handlePasswordReset}
               className="bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border border-indigo-500/20 hover:bg-indigo-500/20 transition-all"
             >
@@ -281,7 +281,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onNotify }) => {
       </section>
 
       {/* NEW HELP & SUPPORT SECTION */}
-      <section 
+      <section
         onClick={() => navigate('/support')}
         className="bg-slate-900 rounded-[2rem] border border-slate-800 p-6 flex items-center justify-between group cursor-pointer active:scale-[0.98] transition-all"
       >
@@ -309,14 +309,14 @@ const Dashboard: React.FC<DashboardProps> = ({ onNotify }) => {
             </div>
           </div>
           <div className="flex space-x-2 w-full md:w-auto">
-            <button 
+            <button
               onClick={handleResendEmail}
               disabled={resending}
               className={`flex-1 md:flex-none px-4 py-2 rounded-xl text-xs font-bold transition-all bg-amber-600 hover:bg-amber-700 text-white active:scale-95 disabled:opacity-50`}
             >
               {resending ? 'Sending...' : 'Resend Email'}
             </button>
-            <button 
+            <button
               onClick={handleRefreshStatus}
               className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold hover:bg-slate-700 transition-all active:scale-95 border border-slate-700"
             >
@@ -328,24 +328,24 @@ const Dashboard: React.FC<DashboardProps> = ({ onNotify }) => {
 
       <section className="grid grid-cols-2 gap-4">
         <div className="bg-slate-900 rounded-3xl p-5 border border-slate-800">
-          <div className="w-10 h-10 bg-indigo-500/10 text-indigo-500 rounded-2xl flex items-center justify-center mb-3">
-             <i className="fa-solid fa-stopwatch"></i>
+          <div className="w-10 h-10 bg-theme-500/10 text-theme-500 rounded-2xl flex items-center justify-center mb-3">
+            <i className="fa-solid fa-stopwatch"></i>
           </div>
           <p className="text-slate-500 text-[10px] font-bold uppercase tracking-wider">Total Play Time</p>
-          <p className="text-2xl font-black text-slate-50">{formatTime(profile?.totalPlayTime || 0)}</p>
+          <p className="text-2xl font-black text-contrast">{formatTime(profile?.totalPlayTime || 0)}</p>
         </div>
         <div className="bg-slate-900 rounded-3xl p-5 border border-slate-800">
           <div className="w-10 h-10 bg-purple-500/10 text-purple-500 rounded-2xl flex items-center justify-center mb-3">
-             <i className="fa-solid fa-gamepad"></i>
+            <i className="fa-solid fa-gamepad"></i>
           </div>
           <p className="text-slate-500 text-[10px] font-bold uppercase tracking-wider">Games Played</p>
-          <p className="text-2xl font-black text-slate-50">{profile?.totalGamesPlayed || 0}</p>
+          <p className="text-2xl font-black text-contrast">{profile?.totalGamesPlayed || 0}</p>
         </div>
       </section>
 
       <section>
         <div className="flex items-center justify-between mb-4 px-1">
-          <h3 className="text-lg font-black text-slate-50 flex items-center">
+          <h3 className="text-lg font-black text-contrast flex items-center">
             <i className="fa-solid fa-heart text-rose-500 mr-2 text-sm"></i>
             Favorite Missions
           </h3>
@@ -359,14 +359,14 @@ const Dashboard: React.FC<DashboardProps> = ({ onNotify }) => {
         {favoriteGames.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {favoriteGames.map((game) => (
-              <Link 
-                key={game.id} 
+              <Link
+                key={game.id}
                 to={`/play/${game.id}`}
                 className="group relative bg-slate-900 rounded-[2rem] overflow-hidden border border-slate-800 transition-all active:scale-95 hover:border-rose-500/50 shadow-xl"
               >
                 <div className="aspect-[1/1] overflow-hidden relative">
-                  <img 
-                    src={game.iconUrl} 
+                  <img
+                    src={game.iconUrl}
                     alt={game.name}
                     className="w-full h-full object-cover p-4 rounded-[3rem] group-hover:scale-105 transition-transform duration-500"
                   />
@@ -376,7 +376,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onNotify }) => {
                   </div>
                 </div>
                 <div className="p-4 pt-0">
-                  <h4 className="font-black text-sm truncate text-slate-50 mb-1 group-hover:text-rose-400 transition-colors">{game.name}</h4>
+                  <h4 className="font-black text-sm truncate text-contrast mb-1 group-hover:text-rose-400 transition-colors">{game.name}</h4>
                   <p className="text-slate-500 text-[9px] font-bold uppercase tracking-widest">{game.category}</p>
                 </div>
               </Link>
@@ -385,11 +385,11 @@ const Dashboard: React.FC<DashboardProps> = ({ onNotify }) => {
         ) : (
           <div className="bg-slate-900/30 border border-dashed border-slate-800 rounded-[2.5rem] p-12 text-center flex flex-col items-center">
             <div className="w-12 h-12 bg-slate-800/50 rounded-2xl flex items-center justify-center mb-4 text-slate-600">
-               <i className="fa-regular fa-heart text-xl"></i>
+              <i className="fa-regular fa-heart text-xl"></i>
             </div>
             <p className="text-slate-500 text-sm font-medium">No favorite missions yet.</p>
             <p className="text-slate-600 text-xs mt-1">Tap the heart icon on any game to save it here!</p>
-            <Link to="/explore" className="mt-6 text-indigo-400 text-[10px] font-black uppercase tracking-widest border border-indigo-500/20 px-4 py-2 rounded-xl hover:bg-indigo-500/10">
+            <Link to="/explore" className="mt-6 text-theme-400 text-[10px] font-black uppercase tracking-widest border border-theme-500/20 px-4 py-2 rounded-xl hover:bg-theme-500/10">
               Find Missions
             </Link>
           </div>
@@ -398,7 +398,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onNotify }) => {
 
       <section>
         <div className="flex items-center justify-between mb-4 px-1">
-          <h3 className="text-lg font-bold text-slate-50">Recently Played</h3>
+          <h3 className="text-lg font-bold text-contrast">Recently Played</h3>
         </div>
 
         {recentGames.length > 0 ? (
@@ -407,10 +407,10 @@ const Dashboard: React.FC<DashboardProps> = ({ onNotify }) => {
               <Link to={`/play/${game.id}`} key={game.id} className="bg-slate-900/50 border border-slate-800 rounded-2xl p-3 flex items-center space-x-4 active:scale-[0.98] transition-all">
                 <img src={game.iconUrl} className="w-12 h-12 rounded-xl object-cover" />
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-bold truncate text-slate-50">{game.name}</h4>
+                  <h4 className="text-sm font-bold truncate text-contrast">{game.name}</h4>
                   <p className="text-xs text-slate-500 uppercase">{game.category}</p>
                 </div>
-                <div className="bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs shadow-lg shadow-indigo-600/20">
+                <div className="bg-theme-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs shadow-lg shadow-theme-600/20">
                   <i className="fa-solid fa-play ml-0.5"></i>
                 </div>
               </Link>

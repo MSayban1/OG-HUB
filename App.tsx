@@ -33,12 +33,12 @@ class GlobalErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySta
   // Fix: Initialize state as a class property
   state: ErrorBoundaryState = { hasError: false };
 
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState { 
-    return { hasError: true, error }; 
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) { 
-    console.error("Global Error:", error, errorInfo); 
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error("Global Error:", error, errorInfo);
   }
 
   render() {
@@ -48,8 +48,8 @@ class GlobalErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySta
         <div className="fixed inset-0 bg-slate-950 flex flex-col items-center justify-center p-8 text-center">
           <h2 className="text-2xl font-black text-rose-500 mb-4 uppercase">System Failure</h2>
           <p className="text-slate-400 text-sm mb-8">The Hub encountered an unexpected error. This has been logged for tactical review.</p>
-          <button 
-            onClick={() => window.location.reload()} 
+          <button
+            onClick={() => window.location.reload()}
             className="bg-indigo-600 px-8 py-3 rounded-xl font-black text-xs uppercase text-white shadow-lg"
           >
             Restart Hub
@@ -125,6 +125,7 @@ const AppContent: React.FC = () => {
 
   useEffect(() => {
     const applyTheme = () => {
+      // 1. Apply Accent Colors
       const savedTheme = localStorage.getItem('oghub_theme_colors');
       if (savedTheme) {
         try {
@@ -132,11 +133,31 @@ const AppContent: React.FC = () => {
           Object.keys(colors).forEach(key => document.documentElement.style.setProperty(`--theme-${key}`, colors[key]));
         } catch (e) { console.error(e); }
       }
-      const mode = localStorage.getItem('oghub_appearance_mode') || 'dark';
-      if (mode === 'light') document.documentElement.classList.add('light-mode');
-      else document.documentElement.classList.remove('light-mode');
+
+      // 2. Apply Appearance Mode (Light/Dark/System)
+      const mode = localStorage.getItem('oghub_appearance_mode') || 'system';
+      const isDarkSystem = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      const shouldBeDark = mode === 'dark' || (mode === 'system' && isDarkSystem);
+
+      if (shouldBeDark) {
+        document.documentElement.classList.remove('light-mode');
+      } else {
+        document.documentElement.classList.add('light-mode');
+      }
     };
+
     applyTheme();
+
+    // Listen for system theme changes if in 'system' mode
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleSystemChange = () => {
+      const mode = localStorage.getItem('oghub_appearance_mode') || 'system';
+      if (mode === 'system') applyTheme();
+    };
+
+    mediaQuery.addEventListener('change', handleSystemChange);
+    return () => mediaQuery.removeEventListener('change', handleSystemChange);
   }, []);
 
   useEffect(() => {
@@ -172,12 +193,12 @@ const AppContent: React.FC = () => {
   const handleLogout = () => signOut(auth);
 
   const isInChat = location.pathname.startsWith('/chat/');
-  const hideBottomNav = location.pathname.startsWith('/play/') || 
-                        location.pathname === '/auth' || 
-                        location.pathname === '/settings' || 
-                        location.pathname === '/support' ||
-                        location.pathname.startsWith('/admin') ||
-                        isInChat;
+  const hideBottomNav = location.pathname.startsWith('/play/') ||
+    location.pathname === '/auth' ||
+    location.pathname === '/settings' ||
+    location.pathname === '/support' ||
+    location.pathname.startsWith('/admin') ||
+    isInChat;
 
   const hideNavbar = isInChat || location.pathname.startsWith('/play/');
 
@@ -190,14 +211,14 @@ const AppContent: React.FC = () => {
         <ServerSelectionModal isOpen={showServerSelect} onClose={() => setShowServerSelect(false)} />
 
         {!hideNavbar && (
-          <Navbar 
-            isAdmin={isAdmin} 
-            user={user} 
-            onBrandClick={() => setShowAbout(true)} 
+          <Navbar
+            isAdmin={isAdmin}
+            user={user}
+            onBrandClick={() => setShowAbout(true)}
             onChatClick={() => setShowServerSelect(true)}
           />
         )}
-        
+
         <main className={`flex-1 overflow-y-auto ${isInChat ? 'p-0' : 'px-4 py-6'}`}>
           <Routes>
             <Route path="/" element={<Home />} />
